@@ -26,11 +26,17 @@ func (a Add) IsReducable() bool {
 
 func (a Add) Reduce() Expression {
 	if a.left.IsReducable() {
+		fmt.Println("1")
 		return NewAdd(a.left.Reduce(), a.right)
 	} else if a.right.IsReducable() {
+		fmt.Println("2")
 		return NewAdd(a.left, a.right.Reduce())
 	} else {
-		return NewNumber(a.left.Value() * a.right.Value())
+		fmt.Println("3")
+		fmt.Printf("Left %v Right %v", a.left.Value(), a.right.Value())
+		res := NewNumber(a.left.Value() + a.right.Value())
+		fmt.Printf("Res %s ", res)
+		return res
 	}
 }
 

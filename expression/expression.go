@@ -1,7 +1,7 @@
 package expression
 
-type Expression interface {
+type Expression[T int | bool] interface {
 	IsReducable() bool
-	Reduce() Expression
-	Value() int
+	Reduce() Expression[T]
+	Value() T
 }

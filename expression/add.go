@@ -5,11 +5,11 @@ import (
 )
 
 type Add struct {
-	left  Expression
-	right Expression
+	left  Expression[int]
+	right Expression[int]
 }
 
-func NewAdd(left Expression, right Expression) *Add {
+func NewAdd(left Expression[int], right Expression[int]) *Add {
 	a := new(Add)
 	a.left = left
 	a.right = right
@@ -24,18 +24,13 @@ func (a Add) IsReducable() bool {
 	return true
 }
 
-func (a Add) Reduce() Expression {
+func (a Add) Reduce() Expression[int] {
 	if a.left.IsReducable() {
-		fmt.Println("1")
 		return NewAdd(a.left.Reduce(), a.right)
 	} else if a.right.IsReducable() {
-		fmt.Println("2")
 		return NewAdd(a.left, a.right.Reduce())
 	} else {
-		fmt.Println("3")
-		fmt.Printf("Left %v Right %v", a.left.Value(), a.right.Value())
 		res := NewNumber(a.left.Value() + a.right.Value())
-		fmt.Printf("Res %s ", res)
 		return res
 	}
 }

@@ -12,7 +12,7 @@ func TestNewNumber(t *testing.T) {
 	}
 }
 
-func TestIsReducable(t *testing.T) {
+func TestNumberIsReducable(t *testing.T) {
 	n := NewNumber(6)
 
 	if n.IsReducable() {
@@ -20,7 +20,7 @@ func TestIsReducable(t *testing.T) {
 	}
 }
 
-func TestReduce(t *testing.T) {
+func TestNumberReduce(t *testing.T) {
 	defer func() { _ = recover() }()
 
 	n := NewNumber(6)

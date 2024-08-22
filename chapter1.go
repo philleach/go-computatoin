@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/philleach/gocomputation/expression"
+	"github.com/philleach/gocomputation/machine"
 )
 
 func main() {
@@ -14,4 +15,9 @@ func main() {
 	fmt.Println(t)
 	fmt.Println(t2)
 	fmt.Println(t3)
+
+	fmt.Println("")
+
+	machine.NewMachine(t3).Run()
+
 }

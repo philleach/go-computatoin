@@ -17,7 +17,7 @@ func NewMultiply(left Expression[int], right Expression[int]) *Multiply {
 }
 
 func (m Multiply) String() string {
-	return fmt.Sprintf("%s * %s", m.left, m.right)
+	return fmt.Sprintf("(%s * %s)", m.left, m.right)
 }
 
 func (m Multiply) IsReducable() bool {

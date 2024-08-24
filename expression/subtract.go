@@ -17,7 +17,7 @@ func NewSubtract(left Expression[int], right Expression[int]) *Subtract {
 }
 
 func (s Subtract) String() string {
-	return fmt.Sprintf("%s + %s", s.left, s.right)
+	return fmt.Sprintf("(%s - %s)", s.left, s.right)
 }
 
 func (s Subtract) IsReducable() bool {

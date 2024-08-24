@@ -17,7 +17,7 @@ func NewAdd(left Expression[int], right Expression[int]) *Add {
 }
 
 func (a Add) String() string {
-	return fmt.Sprintf("%s + %s", a.left, a.right)
+	return fmt.Sprintf("(%s + %s)", a.left, a.right)
 }
 
 func (a Add) IsReducable() bool {

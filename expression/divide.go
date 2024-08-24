@@ -17,7 +17,7 @@ func NewDivide(left Expression[int], right Expression[int]) *Divide {
 }
 
 func (d Divide) String() string {
-	return fmt.Sprintf("%s + %s", d.left, d.right)
+	return fmt.Sprintf("(%s / %s)", d.left, d.right)
 }
 
 func (d Divide) IsReducable() bool {

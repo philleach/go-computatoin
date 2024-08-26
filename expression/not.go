@@ -22,9 +22,9 @@ func (n Not) IsReducable() bool {
 	return true
 }
 
-func (n Not) Reduce() Expression[bool] {
+func (n Not) Reduce(env *Environment) Expression[bool] {
 	if n.value.IsReducable() {
-		return NewNot(n.value.Reduce())
+		return NewNot(n.value.Reduce(env))
 	} else {
 		res := NewBoolean(!n.value.Value())
 		return res

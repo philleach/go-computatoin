@@ -23,7 +23,8 @@ func TestBooleanIsReducable(t *testing.T) {
 func TestBooleanReduce(t *testing.T) {
 	defer func() { _ = recover() }()
 
+	env := new(Environment)
 	n := NewBoolean(false)
-	n.Reduce()
+	n.Reduce(env)
 	t.Errorf("did not panic")
 }

@@ -24,11 +24,11 @@ func (o Or) IsReducable() bool {
 	return true
 }
 
-func (o Or) Reduce() Expression[bool] {
+func (o Or) Reduce(env *Environment) Expression[bool] {
 	if o.left.IsReducable() {
-		return NewOr(o.left.Reduce(), o.right)
+		return NewOr(o.left.Reduce(env), o.right)
 	} else if o.right.IsReducable() {
-		return NewOr(o.left, o.right.Reduce())
+		return NewOr(o.left, o.right.Reduce(env))
 	} else {
 		res := NewBoolean(o.left.Value() || o.right.Value())
 		return res

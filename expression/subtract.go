@@ -24,11 +24,11 @@ func (s Subtract) IsReducable() bool {
 	return true
 }
 
-func (s Subtract) Reduce() Expression[int] {
+func (s Subtract) Reduce(env *Environment) Expression[int] {
 	if s.left.IsReducable() {
-		return NewSubtract(s.left.Reduce(), s.right)
+		return NewSubtract(s.left.Reduce(env), s.right)
 	} else if s.right.IsReducable() {
-		return NewSubtract(s.left, s.right.Reduce())
+		return NewSubtract(s.left, s.right.Reduce(env))
 	} else {
 		res := NewNumber(s.left.Value() - s.right.Value())
 		return res

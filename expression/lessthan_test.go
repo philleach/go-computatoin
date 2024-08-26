@@ -13,8 +13,9 @@ func TestLessThanIsReducable(t *testing.T) {
 }
 
 func TestLessThanReduce(t *testing.T) {
+	env := new(Environment)
 	l := NewLessThan(NewNumber(2), NewNumber(3))
-	res := l.Reduce()
+	res := l.Reduce(env)
 	if !res.Value() {
 		t.Errorf("Reduce Returned %t, rather than (true)", res)
 	}

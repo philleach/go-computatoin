@@ -22,7 +22,7 @@ func (n Number) IsReducable() bool {
 	return false
 }
 
-func (n Number) Reduce() Expression[int] {
+func (n Number) Reduce(env *Environment) Expression[int] {
 	panic("Attempt to reduce a Number")
 }
 

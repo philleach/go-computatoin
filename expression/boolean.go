@@ -22,7 +22,7 @@ func (b Boolean) IsReducable() bool {
 	return false
 }
 
-func (b Boolean) Reduce() Expression[bool] {
+func (b Boolean) Reduce(env *Environment) Expression[bool] {
 	panic("Attempt to reduce a Boolean")
 }
 

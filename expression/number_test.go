@@ -23,7 +23,8 @@ func TestNumberIsReducable(t *testing.T) {
 func TestNumberReduce(t *testing.T) {
 	defer func() { _ = recover() }()
 
+	env := new(Environment)
 	n := NewNumber(6)
-	n.Reduce()
+	n.Reduce(env)
 	t.Errorf("did not panic")
 }

@@ -24,11 +24,11 @@ func (d Divide) IsReducable() bool {
 	return true
 }
 
-func (d Divide) Reduce() Expression[int] {
+func (d Divide) Reduce(env *Environment) Expression[int] {
 	if d.left.IsReducable() {
-		return NewDivide(d.left.Reduce(), d.right)
+		return NewDivide(d.left.Reduce(env), d.right)
 	} else if d.right.IsReducable() {
-		return NewDivide(d.left, d.right.Reduce())
+		return NewDivide(d.left, d.right.Reduce(env))
 	} else {
 		res := NewNumber(d.left.Value() / d.right.Value())
 		return res

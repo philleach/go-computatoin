@@ -13,8 +13,9 @@ func TestAddIsReducable(t *testing.T) {
 }
 
 func TestAddReduce(t *testing.T) {
+	env := new(Environment)
 	a := NewAdd(NewNumber(3), NewNumber(3))
-	res := a.Reduce()
+	res := a.Reduce(env)
 	if res.Value() != 6 {
 		t.Errorf("Reduce Returned %s, rather than (6)", res)
 	}

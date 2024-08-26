@@ -13,8 +13,9 @@ func TestDivideIsReducable(t *testing.T) {
 }
 
 func TestDivideReduce(t *testing.T) {
+	env := new(Environment)
 	a := NewDivide(NewNumber(3), NewNumber(3))
-	res := a.Reduce()
+	res := a.Reduce(env)
 	if res.Value() != 1 {
 		t.Errorf("Reduce Returned %s, rather than (1)", res)
 	}

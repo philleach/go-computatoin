@@ -24,11 +24,11 @@ func (a And) IsReducable() bool {
 	return true
 }
 
-func (a And) Reduce() Expression[bool] {
+func (a And) Reduce(env *Environment) Expression[bool] {
 	if a.left.IsReducable() {
-		return NewAnd(a.left.Reduce(), a.right)
+		return NewAnd(a.left.Reduce(env), a.right)
 	} else if a.right.IsReducable() {
-		return NewAnd(a.left, a.right.Reduce())
+		return NewAnd(a.left, a.right.Reduce(env))
 	} else {
 		res := NewBoolean(a.left.Value() && a.right.Value())
 		return res

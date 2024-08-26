@@ -13,8 +13,9 @@ func TestGreaterThanIsReducable(t *testing.T) {
 }
 
 func TestGreaterThanReduce(t *testing.T) {
+	env := new(Environment)
 	g := NewGreaterThan(NewNumber(4), NewNumber(3))
-	res := g.Reduce()
+	res := g.Reduce(env)
 	if !res.Value() {
 		t.Errorf("Reduce Returned %t, rather than (true)", res)
 	}

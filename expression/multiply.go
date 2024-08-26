@@ -24,11 +24,11 @@ func (m Multiply) IsReducable() bool {
 	return true
 }
 
-func (m Multiply) Reduce() Expression[int] {
+func (m Multiply) Reduce(env *Environment) Expression[int] {
 	if m.left.IsReducable() {
-		return NewMultiply(m.left.Reduce(), m.right)
+		return NewMultiply(m.left.Reduce(env), m.right)
 	} else if m.right.IsReducable() {
-		return NewMultiply(m.left, m.right.Reduce())
+		return NewMultiply(m.left, m.right.Reduce(env))
 	} else {
 		return NewNumber(m.left.Value() * m.right.Value())
 	}

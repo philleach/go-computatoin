@@ -3,26 +3,27 @@ package machine
 import (
 	"fmt"
 
-	"github.com/philleach/gocomputation/expression"
+	e "github.com/philleach/gocomputation/expression"
 )
 
 type Machine[T int | bool] struct {
-	exp expression.Expression[T]
+	exp e.Expression[T]
 }
 
-func NewMachine[T int | bool](exp expression.Expression[T]) *Machine[T] {
+func NewMachine[T int | bool](exp e.Expression[T]) *Machine[T] {
 	m := new(Machine[T])
 	m.exp = exp
 	return m
 }
 
 func (m Machine[T]) Run() T {
-	e := m.exp
-	fmt.Printf("Evaluating : %s\n", e)
+	exp := m.exp
+	fmt.Printf("Evaluating : %s\n", exp)
 
-	for e.IsReducable() {
-		e = e.Reduce()
-		fmt.Printf("...is reduced to : %s\n", e)
+	env := new(e.Environment)
+	for exp.IsReducable() {
+		exp = exp.Reduce(env)
+		fmt.Printf("...is reduced to : %s\n", exp)
 	}
-	return e.Value()
+	return exp.Value()
 }

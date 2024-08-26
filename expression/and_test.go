@@ -13,8 +13,9 @@ func TestAndIsReducable(t *testing.T) {
 }
 
 func TestAndReduce(t *testing.T) {
+	env := new(Environment)
 	a := NewAnd(NewBoolean(true), NewBoolean(true))
-	res := a.Reduce()
+	res := a.Reduce(env)
 	if !res.Value() {
 		t.Errorf("Reduce Returned %t, rather than (true)", res)
 	}

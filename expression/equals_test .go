@@ -13,8 +13,9 @@ func TestEqualsIsReducable(t *testing.T) {
 }
 
 func TestEqualsReduce(t *testing.T) {
+	env := new(Environment)
 	a := NewEquals(NewNumber(3), NewNumber(3))
-	res := a.Reduce()
+	res := a.Reduce(env)
 	if !res.Value() {
 		t.Errorf("Reduce Returned %t, rather than (true)", res)
 	}

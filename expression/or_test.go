@@ -13,8 +13,9 @@ func TestOrIsReducable(t *testing.T) {
 }
 
 func TestOrReduce(t *testing.T) {
+	env := new(Environment)
 	n := NewOr(NewBoolean(true), NewBoolean(true))
-	res := n.Reduce()
+	res := n.Reduce(env)
 	if !res.Value() {
 		t.Errorf("Reduce Returned %t, rather than (true)", res)
 	}

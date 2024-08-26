@@ -24,11 +24,11 @@ func (l LessThan) IsReducable() bool {
 	return true
 }
 
-func (l LessThan) Reduce() Expression[bool] {
+func (l LessThan) Reduce(env *Environment) Expression[bool] {
 	if l.left.IsReducable() {
-		return NewLessThan(l.left.Reduce(), l.right)
+		return NewLessThan(l.left.Reduce(env), l.right)
 	} else if l.right.IsReducable() {
-		return NewLessThan(l.left, l.right.Reduce())
+		return NewLessThan(l.left, l.right.Reduce(env))
 	} else {
 		res := NewBoolean(l.left.Value() < l.right.Value())
 		return res

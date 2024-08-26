@@ -13,8 +13,9 @@ func TestMultiplyIsReducable(t *testing.T) {
 }
 
 func TestMultiplyReduce(t *testing.T) {
+	env := new(Environment)
 	a := NewMultiply(NewNumber(3), NewNumber(3))
-	res := a.Reduce()
+	res := a.Reduce(env)
 	if res.Value() != 9 {
 		t.Errorf("Reduce Returned %s, rather than (9)", res)
 	}

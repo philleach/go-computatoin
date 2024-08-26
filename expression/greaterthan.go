@@ -24,11 +24,11 @@ func (g GreaterThan) IsReducable() bool {
 	return true
 }
 
-func (g GreaterThan) Reduce() Expression[bool] {
+func (g GreaterThan) Reduce(env *Environment) Expression[bool] {
 	if g.left.IsReducable() {
-		return NewGreaterThan(g.left.Reduce(), g.right)
+		return NewGreaterThan(g.left.Reduce(env), g.right)
 	} else if g.right.IsReducable() {
-		return NewGreaterThan(g.left, g.right.Reduce())
+		return NewGreaterThan(g.left, g.right.Reduce(env))
 	} else {
 		res := NewBoolean(g.left.Value() > g.right.Value())
 		return res

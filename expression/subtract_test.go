@@ -13,8 +13,9 @@ func TestSubtractIsReducable(t *testing.T) {
 }
 
 func TestSubtractReduce(t *testing.T) {
+	env := new(Environment)
 	a := NewSubtract(NewNumber(3), NewNumber(2))
-	res := a.Reduce()
+	res := a.Reduce(env)
 	if res.Value() != 1 {
 		t.Errorf("Reduce Returned %s, rather than (1)", res)
 	}

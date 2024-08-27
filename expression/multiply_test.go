@@ -5,7 +5,7 @@ import (
 )
 
 func TestMultiplyIsReducable(t *testing.T) {
-	n := NewMultiply(NewNumber(3), NewNumber(3))
+	n := Multiply(Number(3), Number(3))
 
 	if !n.IsReducable() {
 		t.Errorf("IsReducable should return false")
@@ -13,8 +13,8 @@ func TestMultiplyIsReducable(t *testing.T) {
 }
 
 func TestMultiplyReduce(t *testing.T) {
-	env := new(Environment)
-	a := NewMultiply(NewNumber(3), NewNumber(3))
+	env := NewEnvironment()
+	a := Multiply(Number(3), Number(3))
 	res := a.Reduce(env)
 	if res.Value() != 9 {
 		t.Errorf("Reduce Returned %s, rather than (9)", res)
@@ -24,7 +24,7 @@ func TestMultiplyReduce(t *testing.T) {
 func TestMultiplyValue(t *testing.T) {
 	defer func() { _ = recover() }()
 
-	a := NewMultiply(NewNumber(3), NewNumber(3))
+	a := Multiply(Number(3), Number(3))
 	a.Value()
 	t.Errorf("did not panic")
 }

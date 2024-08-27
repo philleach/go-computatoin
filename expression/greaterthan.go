@@ -4,37 +4,45 @@ import (
 	"fmt"
 )
 
-type GreaterThan struct {
-	left  Expression[int]
-	right Expression[int]
+type GreaterThanExpr struct {
+	left  Expression
+	right Expression
 }
 
-func NewGreaterThan(left Expression[int], right Expression[int]) *GreaterThan {
-	g := new(GreaterThan)
+func GreaterThan(left Expression, right Expression) *GreaterThanExpr {
+	g := new(GreaterThanExpr)
 	g.left = left
 	g.right = right
 	return g
 }
 
-func (g GreaterThan) String() string {
+func (g GreaterThanExpr) String() string {
 	return fmt.Sprintf("(%s > %s)", g.left, g.right)
 }
 
-func (g GreaterThan) IsReducable() bool {
+func (g GreaterThanExpr) IsReducable() bool {
 	return true
 }
 
-func (g GreaterThan) Reduce(env *Environment) Expression[bool] {
+func (g GreaterThanExpr) Reduce(env *Environment) Expression {
 	if g.left.IsReducable() {
-		return NewGreaterThan(g.left.Reduce(env), g.right)
+		return GreaterThan(g.left.Reduce(env), g.right)
 	} else if g.right.IsReducable() {
-		return NewGreaterThan(g.left, g.right.Reduce(env))
+		return GreaterThan(g.left, g.right.Reduce(env))
 	} else {
-		res := NewBoolean(g.left.Value() > g.right.Value())
+		left, ok := g.left.Value().(int)
+		if !ok {
+			panic("Left value is not an int")
+		}
+		right, ok := g.right.Value().(int)
+		if !ok {
+			panic("Right value is not an int")
+		}
+		res := Boolean(left > right)
 		return res
 	}
 }
 
-func (g GreaterThan) Value() bool {
+func (g GreaterThanExpr) Value() any {
 	panic("Attempt to get value from GreaterThan")
 }

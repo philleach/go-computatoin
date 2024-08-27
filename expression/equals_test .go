@@ -5,7 +5,7 @@ import (
 )
 
 func TestEqualsIsReducable(t *testing.T) {
-	e := NewEquals(NewNumber(3), NewNumber(3))
+	e := Equals(Number(3), Number(3))
 
 	if !e.IsReducable() {
 		t.Errorf("IsReducable should return false")
@@ -13,10 +13,10 @@ func TestEqualsIsReducable(t *testing.T) {
 }
 
 func TestEqualsReduce(t *testing.T) {
-	env := new(Environment)
-	a := NewEquals(NewNumber(3), NewNumber(3))
+	env := NewEnvironment()
+	a := Equals(Number(3), Number(3))
 	res := a.Reduce(env)
-	if !res.Value() {
+	if !res.Value().(bool) {
 		t.Errorf("Reduce Returned %t, rather than (true)", res)
 	}
 }
@@ -24,7 +24,7 @@ func TestEqualsReduce(t *testing.T) {
 func TestEqualsValue(t *testing.T) {
 	defer func() { _ = recover() }()
 
-	a := NewEquals(NewNumber(3), NewNumber(3))
+	a := Equals(Number(3), Number(3))
 	a.Value()
 	t.Errorf("did not panic")
 }

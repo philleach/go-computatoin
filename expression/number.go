@@ -4,28 +4,28 @@ import (
 	"fmt"
 )
 
-type Number struct {
+type NumberValue struct {
 	value int
 }
 
-func NewNumber(i int) *Number {
-	n := new(Number)
+func Number(i int) *NumberValue {
+	n := new(NumberValue)
 	n.value = i
 	return n
 }
 
-func (n Number) String() string {
+func (n NumberValue) String() string {
 	return fmt.Sprintf("%d", n.value)
 }
 
-func (n Number) IsReducable() bool {
+func (n NumberValue) IsReducable() bool {
 	return false
 }
 
-func (n Number) Reduce(env *Environment) Expression[int] {
+func (n NumberValue) Reduce(env *Environment) Expression {
 	panic("Attempt to reduce a Number")
 }
 
-func (n Number) Value() int {
+func (n NumberValue) Value() any {
 	return n.value
 }

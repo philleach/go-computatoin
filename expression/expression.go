@@ -1,9 +1,7 @@
 package expression
 
-type Expression[T int | bool] interface {
+type Expression interface {
 	IsReducable() bool
-	Reduce(env *Environment) Expression[T]
-	Value() T
+	Reduce(env *Environment) Expression
+	Value() any
 }
-
-type Environment map[string]any

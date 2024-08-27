@@ -4,37 +4,45 @@ import (
 	"fmt"
 )
 
-type Equals struct {
-	left  Expression[int]
-	right Expression[int]
+type EqualsExpr struct {
+	left  Expression
+	right Expression
 }
 
-func NewEquals(left Expression[int], right Expression[int]) *Equals {
-	e := new(Equals)
+func Equals(left Expression, right Expression) *EqualsExpr {
+	e := new(EqualsExpr)
 	e.left = left
 	e.right = right
 	return e
 }
 
-func (a Equals) String() string {
-	return fmt.Sprintf("%s = %s", a.left, a.right)
+func (e EqualsExpr) String() string {
+	return fmt.Sprintf("%s = %s", e.left, e.right)
 }
 
-func (a Equals) IsReducable() bool {
+func (e EqualsExpr) IsReducable() bool {
 	return true
 }
 
-func (a Equals) Reduce(env *Environment) Expression[bool] {
-	if a.left.IsReducable() {
-		return NewEquals(a.left.Reduce(env), a.right)
-	} else if a.right.IsReducable() {
-		return NewEquals(a.left, a.right.Reduce(env))
+func (e EqualsExpr) Reduce(env *Environment) Expression {
+	if e.left.IsReducable() {
+		return Equals(e.left.Reduce(env), e.right)
+	} else if e.right.IsReducable() {
+		return Equals(e.left, e.right.Reduce(env))
 	} else {
-		res := NewBoolean(a.left.Value() == a.right.Value())
+		left, ok := e.left.Value().(int)
+		if !ok {
+			panic("Left value is not an int")
+		}
+		right, ok := e.right.Value().(int)
+		if !ok {
+			panic("Right value is not an int")
+		}
+		res := Boolean(left == right)
 		return res
 	}
 }
 
-func (a Equals) Value() bool {
+func (e EqualsExpr) Value() any {
 	panic("Attempt to get value from Equals")
 }

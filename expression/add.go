@@ -4,37 +4,45 @@ import (
 	"fmt"
 )
 
-type Add struct {
-	left  Expression[int]
-	right Expression[int]
+type AddExpr struct {
+	left  Expression
+	right Expression
 }
 
-func NewAdd(left Expression[int], right Expression[int]) *Add {
-	a := new(Add)
+func Add(left Expression, right Expression) *AddExpr {
+	a := new(AddExpr)
 	a.left = left
 	a.right = right
 	return a
 }
 
-func (a Add) String() string {
+func (a AddExpr) String() string {
 	return fmt.Sprintf("(%s + %s)", a.left, a.right)
 }
 
-func (a Add) IsReducable() bool {
+func (a AddExpr) IsReducable() bool {
 	return true
 }
 
-func (a Add) Reduce(env *Environment) Expression[int] {
+func (a AddExpr) Reduce(env *Environment) Expression {
 	if a.left.IsReducable() {
-		return NewAdd(a.left.Reduce(env), a.right)
+		return Add(a.left.Reduce(env), a.right)
 	} else if a.right.IsReducable() {
-		return NewAdd(a.left, a.right.Reduce(env))
+		return Add(a.left, a.right.Reduce(env))
 	} else {
-		res := NewNumber(a.left.Value() + a.right.Value())
+		left, ok := a.left.Value().(int)
+		if !ok {
+			panic("Left value is not an int")
+		}
+		right, ok := a.right.Value().(int)
+		if !ok {
+			panic("Right value is not an int")
+		}
+		res := Number(left + right)
 		return res
 	}
 }
 
-func (a Add) Value() int {
+func (a AddExpr) Value() any {
 	panic("Attempt to get value from Add")
 }

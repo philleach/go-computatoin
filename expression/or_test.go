@@ -5,7 +5,7 @@ import (
 )
 
 func TestOrIsReducable(t *testing.T) {
-	n := NewOr(NewBoolean(true), NewBoolean(true))
+	n := Or(Boolean(true), Boolean(true))
 
 	if !n.IsReducable() {
 		t.Errorf("IsReducable should return false")
@@ -13,10 +13,10 @@ func TestOrIsReducable(t *testing.T) {
 }
 
 func TestOrReduce(t *testing.T) {
-	env := new(Environment)
-	n := NewOr(NewBoolean(true), NewBoolean(true))
+	env := NewEnvironment()
+	n := Or(Boolean(true), Boolean(true))
 	res := n.Reduce(env)
-	if !res.Value() {
+	if !res.Value().(bool) {
 		t.Errorf("Reduce Returned %t, rather than (true)", res)
 	}
 }
@@ -24,7 +24,7 @@ func TestOrReduce(t *testing.T) {
 func TestOrValue(t *testing.T) {
 	defer func() { _ = recover() }()
 
-	n := NewOr(NewBoolean(true), NewBoolean(true))
+	n := Or(Boolean(true), Boolean(true))
 	n.Value()
 	t.Errorf("did not panic")
 }

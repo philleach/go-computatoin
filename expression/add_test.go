@@ -5,7 +5,7 @@ import (
 )
 
 func TestAddIsReducable(t *testing.T) {
-	n := NewAdd(NewNumber(3), NewNumber(3))
+	n := Add(Number(3), Number(3))
 
 	if !n.IsReducable() {
 		t.Errorf("IsReducable should return false")
@@ -13,8 +13,8 @@ func TestAddIsReducable(t *testing.T) {
 }
 
 func TestAddReduce(t *testing.T) {
-	env := new(Environment)
-	a := NewAdd(NewNumber(3), NewNumber(3))
+	env := NewEnvironment()
+	a := Add(Number(3), Number(3))
 	res := a.Reduce(env)
 	if res.Value() != 6 {
 		t.Errorf("Reduce Returned %s, rather than (6)", res)
@@ -24,7 +24,7 @@ func TestAddReduce(t *testing.T) {
 func TestAddValue(t *testing.T) {
 	defer func() { _ = recover() }()
 
-	a := NewAdd(NewNumber(3), NewNumber(3))
+	a := Add(Number(3), Number(3))
 	a.Value()
 	t.Errorf("did not panic")
 }

@@ -4,28 +4,28 @@ import (
 	"fmt"
 )
 
-type Boolean struct {
+type BooleanValue struct {
 	value bool
 }
 
-func NewBoolean(v bool) *Boolean {
-	b := new(Boolean)
+func Boolean(v bool) *BooleanValue {
+	b := new(BooleanValue)
 	b.value = v
 	return b
 }
 
-func (b Boolean) String() string {
+func (b BooleanValue) String() string {
 	return fmt.Sprintf("%t", b.value)
 }
 
-func (b Boolean) IsReducable() bool {
+func (b BooleanValue) IsReducable() bool {
 	return false
 }
 
-func (b Boolean) Reduce(env *Environment) Expression[bool] {
+func (b BooleanValue) Reduce(env *Environment) Expression {
 	panic("Attempt to reduce a Boolean")
 }
 
-func (b Boolean) Value() bool {
+func (b BooleanValue) Value() any {
 	return b.value
 }

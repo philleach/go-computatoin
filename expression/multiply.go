@@ -4,36 +4,44 @@ import (
 	"fmt"
 )
 
-type Multiply struct {
-	left  Expression[int]
-	right Expression[int]
+type MultiplyExpr struct {
+	left  Expression
+	right Expression
 }
 
-func NewMultiply(left Expression[int], right Expression[int]) *Multiply {
-	m := new(Multiply)
+func Multiply(left Expression, right Expression) *MultiplyExpr {
+	m := new(MultiplyExpr)
 	m.left = left
 	m.right = right
 	return m
 }
 
-func (m Multiply) String() string {
+func (m MultiplyExpr) String() string {
 	return fmt.Sprintf("(%s * %s)", m.left, m.right)
 }
 
-func (m Multiply) IsReducable() bool {
+func (m MultiplyExpr) IsReducable() bool {
 	return true
 }
 
-func (m Multiply) Reduce(env *Environment) Expression[int] {
+func (m MultiplyExpr) Reduce(env *Environment) Expression {
 	if m.left.IsReducable() {
-		return NewMultiply(m.left.Reduce(env), m.right)
+		return Multiply(m.left.Reduce(env), m.right)
 	} else if m.right.IsReducable() {
-		return NewMultiply(m.left, m.right.Reduce(env))
+		return Multiply(m.left, m.right.Reduce(env))
 	} else {
-		return NewNumber(m.left.Value() * m.right.Value())
+		left, ok := m.left.Value().(int)
+		if !ok {
+			panic("Left value is not an int")
+		}
+		right, ok := m.right.Value().(int)
+		if !ok {
+			panic("Right value is not an int")
+		}
+		return Number(left * right)
 	}
 }
 
-func (m Multiply) Value() int {
+func (m MultiplyExpr) Value() any {
 	panic("Attempt to get value from Multiply")
 }

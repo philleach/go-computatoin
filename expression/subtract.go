@@ -4,37 +4,45 @@ import (
 	"fmt"
 )
 
-type Subtract struct {
-	left  Expression[int]
-	right Expression[int]
+type SubtractExpr struct {
+	left  Expression
+	right Expression
 }
 
-func NewSubtract(left Expression[int], right Expression[int]) *Subtract {
-	s := new(Subtract)
+func Subtract(left Expression, right Expression) *SubtractExpr {
+	s := new(SubtractExpr)
 	s.left = left
 	s.right = right
 	return s
 }
 
-func (s Subtract) String() string {
+func (s SubtractExpr) String() string {
 	return fmt.Sprintf("(%s - %s)", s.left, s.right)
 }
 
-func (s Subtract) IsReducable() bool {
+func (s SubtractExpr) IsReducable() bool {
 	return true
 }
 
-func (s Subtract) Reduce(env *Environment) Expression[int] {
+func (s SubtractExpr) Reduce(env *Environment) Expression {
 	if s.left.IsReducable() {
-		return NewSubtract(s.left.Reduce(env), s.right)
+		return Subtract(s.left.Reduce(env), s.right)
 	} else if s.right.IsReducable() {
-		return NewSubtract(s.left, s.right.Reduce(env))
+		return Subtract(s.left, s.right.Reduce(env))
 	} else {
-		res := NewNumber(s.left.Value() - s.right.Value())
+		left, ok := s.left.Value().(int)
+		if !ok {
+			panic("Left value is not an int")
+		}
+		right, ok := s.right.Value().(int)
+		if !ok {
+			panic("Right value is not an int")
+		}
+		res := Number(left - right)
 		return res
 	}
 }
 
-func (s Subtract) Value() int {
+func (s SubtractExpr) Value() any {
 	panic("Attempt to get value from Add")
 }

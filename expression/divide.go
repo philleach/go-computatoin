@@ -4,37 +4,45 @@ import (
 	"fmt"
 )
 
-type Divide struct {
-	left  Expression[int]
-	right Expression[int]
+type DivideExpr struct {
+	left  Expression
+	right Expression
 }
 
-func NewDivide(left Expression[int], right Expression[int]) *Divide {
-	d := new(Divide)
+func Divide(left Expression, right Expression) *DivideExpr {
+	d := new(DivideExpr)
 	d.left = left
 	d.right = right
 	return d
 }
 
-func (d Divide) String() string {
+func (d DivideExpr) String() string {
 	return fmt.Sprintf("(%s / %s)", d.left, d.right)
 }
 
-func (d Divide) IsReducable() bool {
+func (d DivideExpr) IsReducable() bool {
 	return true
 }
 
-func (d Divide) Reduce(env *Environment) Expression[int] {
+func (d DivideExpr) Reduce(env *Environment) Expression {
 	if d.left.IsReducable() {
-		return NewDivide(d.left.Reduce(env), d.right)
+		return Divide(d.left.Reduce(env), d.right)
 	} else if d.right.IsReducable() {
-		return NewDivide(d.left, d.right.Reduce(env))
+		return Divide(d.left, d.right.Reduce(env))
 	} else {
-		res := NewNumber(d.left.Value() / d.right.Value())
+		left, ok := d.left.Value().(int)
+		if !ok {
+			panic("Left value is not an int")
+		}
+		right, ok := d.right.Value().(int)
+		if !ok {
+			panic("Right value is not an int")
+		}
+		res := Number(left / right)
 		return res
 	}
 }
 
-func (d Divide) Value() int {
+func (d DivideExpr) Value() any {
 	panic("Attempt to get value from Divide")
 }

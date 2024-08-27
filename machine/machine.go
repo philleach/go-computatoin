@@ -6,23 +6,24 @@ import (
 	e "github.com/philleach/gocomputation/expression"
 )
 
-type Machine[T int | bool] struct {
-	exp e.Expression[T]
+type MachineDefn struct {
+	exp e.Expression
+	env *e.Environment
 }
 
-func NewMachine[T int | bool](exp e.Expression[T]) *Machine[T] {
-	m := new(Machine[T])
+func Machine(exp e.Expression, env *e.Environment) *MachineDefn {
+	m := new(MachineDefn)
 	m.exp = exp
+	m.env = env
 	return m
 }
 
-func (m Machine[T]) Run() T {
+func (m MachineDefn) Run() any {
 	exp := m.exp
 	fmt.Printf("Evaluating : %s\n", exp)
 
-	env := new(e.Environment)
 	for exp.IsReducable() {
-		exp = exp.Reduce(env)
+		exp = exp.Reduce(m.env)
 		fmt.Printf("...is reduced to : %s\n", exp)
 	}
 	return exp.Value()

@@ -4,37 +4,45 @@ import (
 	"fmt"
 )
 
-type Or struct {
-	left  Expression[bool]
-	right Expression[bool]
+type OrExpr struct {
+	left  Expression
+	right Expression
 }
 
-func NewOr(left Expression[bool], right Expression[bool]) *Or {
-	o := new(Or)
+func Or(left Expression, right Expression) *OrExpr {
+	o := new(OrExpr)
 	o.left = left
 	o.right = right
 	return o
 }
 
-func (o Or) String() string {
+func (o OrExpr) String() string {
 	return fmt.Sprintf("(%s || %s)", o.left, o.right)
 }
 
-func (o Or) IsReducable() bool {
+func (o OrExpr) IsReducable() bool {
 	return true
 }
 
-func (o Or) Reduce(env *Environment) Expression[bool] {
+func (o OrExpr) Reduce(env *Environment) Expression {
 	if o.left.IsReducable() {
-		return NewOr(o.left.Reduce(env), o.right)
+		return Or(o.left.Reduce(env), o.right)
 	} else if o.right.IsReducable() {
-		return NewOr(o.left, o.right.Reduce(env))
+		return Or(o.left, o.right.Reduce(env))
 	} else {
-		res := NewBoolean(o.left.Value() || o.right.Value())
+		left, ok := o.left.Value().(bool)
+		if !ok {
+			panic("Left value is not an bool")
+		}
+		right, ok := o.right.Value().(bool)
+		if !ok {
+			panic("Right value is not an bool")
+		}
+		res := Boolean(left || right)
 		return res
 	}
 }
 
-func (o Or) Value() bool {
+func (o OrExpr) Value() any {
 	panic("Attempt to get value from Or")
 }

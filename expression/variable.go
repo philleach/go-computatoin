@@ -4,28 +4,28 @@ import (
 	"fmt"
 )
 
-type Variable struct {
+type VariableExpr struct {
 	name string
 }
 
-func NewVariable(name string) *Variable {
-	v := new(Variable)
+func Variable(name string) *VariableExpr {
+	v := new(VariableExpr)
 	v.name = name
 	return v
 }
 
-func (v Variable) String() string {
+func (v VariableExpr) String() string {
 	return fmt.Sprintf("%s", v.name)
 }
 
-func (v Variable) IsReducable() bool {
+func (v VariableExpr) IsReducable() bool {
 	return true
 }
 
-func (v Variable) Reduce(env *Environment) any {
-	return (*env)[v.name]
+func (v VariableExpr) Reduce(env *Environment) Expression {
+	return env.lookup(v.name)
 }
 
-func (v Variable) Value() bool {
+func (v VariableExpr) Value() any {
 	panic("Attempt to get value from Equals")
 }

@@ -4,37 +4,45 @@ import (
 	"fmt"
 )
 
-type LessThan struct {
-	left  Expression[int]
-	right Expression[int]
+type LessThanExpr struct {
+	left  Expression
+	right Expression
 }
 
-func NewLessThan(left Expression[int], right Expression[int]) *LessThan {
-	l := new(LessThan)
+func LessThan(left Expression, right Expression) *LessThanExpr {
+	l := new(LessThanExpr)
 	l.left = left
 	l.right = right
 	return l
 }
 
-func (l LessThan) String() string {
+func (l LessThanExpr) String() string {
 	return fmt.Sprintf("(%s < %s)", l.left, l.right)
 }
 
-func (l LessThan) IsReducable() bool {
+func (l LessThanExpr) IsReducable() bool {
 	return true
 }
 
-func (l LessThan) Reduce(env *Environment) Expression[bool] {
+func (l LessThanExpr) Reduce(env *Environment) Expression {
 	if l.left.IsReducable() {
-		return NewLessThan(l.left.Reduce(env), l.right)
+		return LessThan(l.left.Reduce(env), l.right)
 	} else if l.right.IsReducable() {
-		return NewLessThan(l.left, l.right.Reduce(env))
+		return LessThan(l.left, l.right.Reduce(env))
 	} else {
-		res := NewBoolean(l.left.Value() < l.right.Value())
+		left, ok := l.left.Value().(int)
+		if !ok {
+			panic("Left value is not an int")
+		}
+		right, ok := l.right.Value().(int)
+		if !ok {
+			panic("Right value is not an int")
+		}
+		res := Boolean(left < right)
 		return res
 	}
 }
 
-func (l LessThan) Value() bool {
+func (l LessThanExpr) Value() any {
 	panic("Attempt to get value from LessThan")
 }

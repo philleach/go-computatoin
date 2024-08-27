@@ -5,7 +5,7 @@ import (
 )
 
 func TestLessThanIsReducable(t *testing.T) {
-	l := NewLessThan(NewNumber(3), NewNumber(3))
+	l := LessThan(Number(3), Number(3))
 
 	if !l.IsReducable() {
 		t.Errorf("IsReducable should return false")
@@ -13,10 +13,10 @@ func TestLessThanIsReducable(t *testing.T) {
 }
 
 func TestLessThanReduce(t *testing.T) {
-	env := new(Environment)
-	l := NewLessThan(NewNumber(2), NewNumber(3))
+	env := NewEnvironment()
+	l := LessThan(Number(2), Number(3))
 	res := l.Reduce(env)
-	if !res.Value() {
+	if !res.Value().(bool) {
 		t.Errorf("Reduce Returned %t, rather than (true)", res)
 	}
 }
@@ -24,7 +24,7 @@ func TestLessThanReduce(t *testing.T) {
 func TestLessThanValue(t *testing.T) {
 	defer func() { _ = recover() }()
 
-	l := NewLessThan(NewNumber(3), NewNumber(3))
+	l := LessThan(Number(3), Number(3))
 	l.Value()
 	t.Errorf("did not panic")
 }

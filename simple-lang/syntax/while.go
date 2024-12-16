@@ -29,3 +29,12 @@ func (w WhileStmt) Reduce(env *Environment) (Statement, *Environment) {
 		Sequence(w.body, While(w.cond, w.body)),
 		DoNothing()), env
 }
+
+func (w WhileStmt) Evaluate(env *Environment) *Environment {
+	if w.cond.Evaluate(env).Value().(bool) {
+		env = w.body.Evaluate(env)
+	} else {
+		return env
+	}
+	return env
+}

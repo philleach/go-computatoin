@@ -32,3 +32,7 @@ func (s SequenceStmt) Reduce(env *Environment) (Statement, *Environment) {
 		return Sequence(new_first, s.second), env
 	}
 }
+
+func (s SequenceStmt) Evaluate(env *Environment) *Environment {
+	return s.second.Evaluate(s.first.Evaluate(env))
+}

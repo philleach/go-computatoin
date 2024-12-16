@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	m "github.com/philleach/gocomputation/small-step/machine"
-	s "github.com/philleach/gocomputation/small-step/syntax"
+	m "github.com/philleach/gocomputation/simple-lang/machine"
+	s "github.com/philleach/gocomputation/simple-lang/syntax"
 )
 
 func main() {

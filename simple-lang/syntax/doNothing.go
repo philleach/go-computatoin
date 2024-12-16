@@ -23,3 +23,7 @@ func (a DoNothingStmt) IsReducable() bool {
 func (a DoNothingStmt) Reduce(env *Environment) (Statement, *Environment) {
 	panic("Attemmpt to reduce DoNothing Statament")
 }
+
+func (a DoNothingStmt) Evaluate(env *Environment) *Environment {
+	return env
+}

@@ -38,3 +38,7 @@ func (n NotExpr) Reduce(env *Environment) Expression {
 func (n NotExpr) Value() any {
 	panic("Attempt to get value from Not")
 }
+
+func (n NotExpr) Evaluate(env *Environment) Expression {
+	return Boolean(!n.value.Evaluate(env).Value().(bool))
+}

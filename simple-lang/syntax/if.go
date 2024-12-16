@@ -41,3 +41,11 @@ func (i IfStmt) Reduce(env *Environment) (Statement, *Environment) {
 		}
 	}
 }
+
+func (i IfStmt) Evaluate(env *Environment) *Environment {
+	if i.condition.Evaluate(env).Value().(bool) {
+		return i.consequence.Evaluate(env)
+	} else {
+		return i.alternative.Evaluate(env)
+	}
+}

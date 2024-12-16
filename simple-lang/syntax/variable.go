@@ -29,3 +29,7 @@ func (v VariableExpr) Reduce(env *Environment) Expression {
 func (v VariableExpr) Value() any {
 	panic("Attempt to get value from Equals")
 }
+
+func (v VariableExpr) Evaluate(env *Environment) Expression {
+	return env.lookup(v.name)
+}

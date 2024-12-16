@@ -46,3 +46,7 @@ func (g GreaterThanExpr) Reduce(env *Environment) Expression {
 func (g GreaterThanExpr) Value() any {
 	panic("Attempt to get value from GreaterThan")
 }
+
+func (g GreaterThanExpr) Evaluate(env *Environment) Expression {
+	return Boolean(g.left.Evaluate(env).Value().(int) > g.right.Evaluate(env).Value().(int))
+}

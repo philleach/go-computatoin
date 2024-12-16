@@ -3,7 +3,7 @@ package machine
 import (
 	"fmt"
 
-	s "github.com/philleach/gocomputation/small-step/syntax"
+	s "github.com/philleach/gocomputation/simple-lang/syntax"
 )
 
 type EvaluatorDefn struct {

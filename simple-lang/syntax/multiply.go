@@ -45,3 +45,7 @@ func (m MultiplyExpr) Reduce(env *Environment) Expression {
 func (m MultiplyExpr) Value() any {
 	panic("Attempt to get value from Multiply")
 }
+
+func (m MultiplyExpr) Evaluate(env *Environment) Expression {
+	return Number(m.left.Evaluate(env).Value().(int) * m.right.Evaluate(env).Value().(int))
+}

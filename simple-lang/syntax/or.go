@@ -46,3 +46,7 @@ func (o OrExpr) Reduce(env *Environment) Expression {
 func (o OrExpr) Value() any {
 	panic("Attempt to get value from Or")
 }
+
+func (o OrExpr) Evaluate(env *Environment) Expression {
+	return Boolean(o.left.Evaluate(env).Value().(bool) || o.right.Evaluate(env).Value().(bool))
+}

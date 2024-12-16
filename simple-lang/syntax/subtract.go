@@ -46,3 +46,7 @@ func (s SubtractExpr) Reduce(env *Environment) Expression {
 func (s SubtractExpr) Value() any {
 	panic("Attempt to get value from Add")
 }
+
+func (s SubtractExpr) Evaluate(env *Environment) Expression {
+	return Number(s.left.Evaluate(env).Value().(int) - s.right.Evaluate(env).Value().(int))
+}

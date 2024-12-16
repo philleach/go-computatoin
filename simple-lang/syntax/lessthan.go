@@ -46,3 +46,7 @@ func (l LessThanExpr) Reduce(env *Environment) Expression {
 func (l LessThanExpr) Value() any {
 	panic("Attempt to get value from LessThan")
 }
+
+func (l LessThanExpr) Evaluate(env *Environment) Expression {
+	return Boolean(l.left.Evaluate(env).Value().(int) < l.right.Evaluate(env).Value().(int))
+}

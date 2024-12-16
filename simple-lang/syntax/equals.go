@@ -46,3 +46,7 @@ func (e EqualsExpr) Reduce(env *Environment) Expression {
 func (e EqualsExpr) Value() any {
 	panic("Attempt to get value from Equals")
 }
+
+func (e EqualsExpr) Evaluate(env *Environment) Expression {
+	return Boolean(e.left.Evaluate(env).Value().(int) == e.right.Evaluate(env).Value().(int))
+}
